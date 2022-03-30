@@ -27,6 +27,7 @@ function Home() {
   const all = [] as any;
   const [alldata, setalldata] = useState(all);
   const [trans, settrans] = useState("");
+  const [checker, setchecker] = useState(false);
   const [wallets, setWallets] = useState<string[]>();
   const [selectedWallet, setSelectedWallet] = useState<string>();
   const database = FireBase.firestore();
@@ -51,6 +52,9 @@ function Home() {
       const _balance = accountInfo.amount;
       // console.log(_balance)
       setBalance(_balance);
+      if (_balance === 0) {
+        setchecker(true);
+      }
     })();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -400,14 +404,21 @@ function Home() {
                           Balance: {balance / 1000000} Algos{" "}
                         </h3>
                       )}
-                      {balance <= 0 && (
+                    </div>
+                  </div>
+                )}
+                {checker && (
+                  <div className="row justify-content-center no-gutters mt-3 mb-4">
+                    <div className="col-6">
+                      {checker === true && (
                         <h3 className="text-white">
-                          You currently have 0 Algorand in Your Wallet
+                          You currently have 0 Algo in Your Wallet
                         </h3>
                       )}
                     </div>
                   </div>
                 )}
+
                 <br />
                 <br></br>
 
